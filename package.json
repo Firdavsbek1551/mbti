@@ -1,0 +1,14 @@
+{
+  "name": "mti",
+  "version": "1.0.0",
+  "description": "O'zbekcha MBTI testi uchun to'liq backend: akkountlar, natijalar tarixi va Telegram bot orqali admin bildirishnomasi. Parollar va bot tokeni faqat serverda saqlanadi, brauzerga hech qachon chiqmaydi.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
