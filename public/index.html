@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaxsiyat testi — 16 tur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F5F1;
+    --surface:#FFFFFF;
+    --ink:#221F26;
+    --muted:#847F76;
+    --line:rgba(34,31,38,0.13);
+    --violet:#4B3F72;
+    --violet-soft:#EAE6F4;
+    --amber:#D9932E;
+    --sage:#5F7F63;
+    --danger:#B8482F;
+    --radius:3px;
+  }
+  [data-theme="dark"]{
+    --bg:#1A1620;
+    --surface:#221C2B;
+    --ink:#F1ECE4;
+    --muted:#9A93A6;
+    --line:rgba(241,236,228,0.14);
+    --violet:#B7A8E8;
+    --violet-soft:#332B47;
+    --amber:#E9B458;
+    --sage:#8FB496;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+  h1,h2,h3,.serif{ font-family:'Fraunces',serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color:inherit; }
+  button{ font-family:'Inter',sans-serif; cursor:pointer; }
+  ::selection{ background:var(--violet-soft); }
+
+  .shell{ max-width:640px; margin:0 auto; padding:0 24px 80px; }
+  .wide{ max-width:860px; }
+
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:860px; margin:0 auto; padding:26px 24px 0;
+  }
+  .brand{ font-family:'Fraunces',serif; font-size:20px; font-weight:600; }
+  .brand span{ color:var(--violet); font-style:italic; }
+  .top-actions{ display:flex; align-items:center; gap:14px; font-size:14px; color:var(--muted); }
+  .top-actions button.link{ background:none;border:none;color:var(--muted);font-size:14px;padding:0; }
+  .top-actions button.link:hover{ color:var(--ink); }
+  .theme-toggle{
+    width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+    background:var(--surface); display:flex;align-items:center;justify-content:center;
+    font-size:15px;
+  }
+
+  .hero{ padding:64px 0 40px; }
+  .hero h1{ font-size:46px; line-height:1.08; margin:0 0 18px; max-width:9.5em;}
+  .hero p.lead{ font-size:17px; line-height:1.6; color:var(--muted); max-width:34em; margin:0 0 34px;}
+  .axis-row{ display:flex; gap:0; border-top:1px solid var(--line); margin-top:8px; }
+  .axis{ flex:1; padding:18px 4px 0; border-right:1px solid var(--line); }
+  .axis:last-child{ border-right:none; }
+  .axis .pair{ font-family:'Fraunces',serif; font-size:26px; font-weight:600;}
+  .axis .pair em{ font-style:italic; color:var(--violet); font-weight:500;}
+  .axis .label{ font-size:12.5px; color:var(--muted); margin-top:4px; line-height:1.4;}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:13px 26px; border-radius:var(--radius); border:1px solid var(--ink);
+    background:var(--ink); color:var(--bg); font-size:15px; font-weight:500;
+    transition:opacity .15s ease, transform .1s ease;
+  }
+  .btn:hover{ opacity:.85; }
+  .btn:active{ transform:scale(.98); }
+  .btn.secondary{ background:transparent; color:var(--ink); border:1px solid var(--line); }
+  .btn.violet{ background:var(--violet); border-color:var(--violet); color:#fff;}
+  .btn.block{ width:100%; }
+  .btn[disabled]{ opacity:.4; pointer-events:none; }
+
+  .field{ margin-bottom:20px; }
+  .field label{ display:block; font-size:13px; color:var(--muted); margin-bottom:7px; }
+  .field input{
+    width:100%; padding:12px 2px; border:none; border-bottom:1px solid var(--line);
+    background:transparent; color:var(--ink); font-size:16px; font-family:'Inter',sans-serif;
+    outline:none;
+  }
+  .field input:focus{ border-bottom-color:var(--violet); }
+  .form-error{ color:var(--danger); font-size:13.5px; margin:-6px 0 18px; min-height:1em; }
+  .form-switch{ font-size:14px; color:var(--muted); margin-top:22px; }
+  .form-switch button{ background:none; border:none; color:var(--violet); font-size:14px; padding:0; text-decoration:underline; }
+
+  .panel{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:36px 30px; }
+
+  .progress-track{ height:2px; background:var(--line); border-radius:2px; overflow:hidden; margin-bottom:10px; }
+  .progress-fill{ height:100%; background:var(--violet); transition:width .3s ease; }
+  .progress-count{ font-size:13px; color:var(--muted); margin-bottom:38px; }
+  .question h2{ font-size:26px; line-height:1.35; margin:0 0 32px; font-weight:500; }
+  .likert{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line); }
+  .likert button{
+    display:flex; align-items:center; gap:16px;
+    width:100%; text-align:left; background:none; border:none; border-bottom:1px solid var(--line);
+    padding:16px 4px; font-size:15px; color:var(--ink); font-family:'Inter',sans-serif;
+  }
+  .likert button .dot{ width:16px;height:16px;border-radius:50%; border:1.5px solid var(--muted); flex-shrink:0; }
+  .likert button:hover{ color:var(--violet); }
+  .likert button:hover .dot{ border-color:var(--violet); }
+  .likert button.selected .dot{ background:var(--violet); border-color:var(--violet); }
+  .likert button.selected{ color:var(--violet); }
+  .test-nav{ display:flex; justify-content:space-between; margin-top:34px; }
+
+  .result-hero{ text-align:center; padding:30px 0 10px; }
+  .result-letters{
+    font-family:'Fraunces',serif; font-size:76px; font-weight:900; letter-spacing:0.02em;
+    color:var(--violet); line-height:1;
+  }
+  .result-title{ font-size:21px; margin-top:14px; }
+  .result-desc{ color:var(--muted); font-size:15.5px; line-height:1.7; max-width:40em; margin:18px auto 0; }
+  .trait-bars{ margin-top:40px; display:flex; flex-direction:column; gap:18px; }
+  .trait-bar-row{ display:grid; grid-template-columns:1fr 3fr 1fr; align-items:center; gap:10px; font-size:13px; color:var(--muted); }
+  .trait-track{ height:6px; background:var(--line); border-radius:4px; overflow:hidden; position:relative; }
+  .trait-fill{ position:absolute; top:0; bottom:0; background:var(--amber); border-radius:4px; }
+  .result-actions{ display:flex; gap:12px; margin-top:38px; flex-wrap:wrap; justify-content:center; }
+
+  .history-item{ display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line); font-size:14.5px; }
+  .history-item .type{ font-family:'Fraunces',serif; font-weight:600; color:var(--violet); }
+  .history-item .date{ color:var(--muted); font-size:13px; }
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:var(--bg); padding:12px 20px; border-radius:var(--radius);
+    font-size:14px; opacity:0; transition:all .25s ease; pointer-events:none; z-index:50;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .section-title{ font-size:14px; color:var(--muted); margin:44px 0 18px; letter-spacing:0.02em;}
+  .empty{ color:var(--muted); font-size:14.5px; padding:20px 0; }
+
+  footer{
+    max-width:860px; margin:60px auto 0; padding:24px; border-top:1px solid var(--line);
+    font-size:12.5px; color:var(--muted); text-align:center;
+  }
+
+  @media (max-width:600px){
+    .hero h1{ font-size:34px; }
+    .axis-row{ flex-wrap:wrap; }
+    .axis{ flex:0 0 50%; border-right:none; border-bottom:1px solid var(--line); padding-bottom:14px;}
+    .result-letters{ font-size:56px; }
+    .topbar{ padding:20px 20px 0; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
+  .fade-in{ animation:fadeIn .35s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">shaxsiyat<span>.uz</span></div>
+  <div class="top-actions" id="topActions"></div>
+</div>
+
+<div id="app" class="shell"></div>
+<div class="toast" id="toast"></div>
+
+<footer>Bu test ilmiy tashxis emas, faqat o'z-o'zini kuzatish uchun mo'ljallangan.</footer>
+
+<script>
+/* Bu fayl backend bilan ishlaydi: barcha ma'lumotlar /api/... orqali serverga
+   yuboriladi. Parollar va Telegram bot tokeni faqat serverda saqlanadi —
+   brauzer tomonida hech qanday maxfiy ma'lumot yo'q. */
+
+const API = "/api";
+
+async function api(path, options={}){
+  const res = await fetch(API+path, {
+    method: options.method || "GET",
+    headers: {"Content-Type":"application/json"},
+    credentials: "same-origin",
+    body: options.body ? JSON.stringify(options.body) : undefined
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error || "Xatolik yuz berdi.");
+  return data;
+}
+
+const QUESTIONS = [
+  {axis:"EI", letter:"E", text:"Katta kompaniyalarda o'zimni energiyaga to'lgandek his qilaman."},
+  {axis:"EI", letter:"E", text:"Notanish odamlar bilan suhbatni boshlash men uchun oson."},
+  {axis:"EI", letter:"E", text:"Fikrlarimni ovoz chiqarib gapirib, tartibga solaman."},
+  {axis:"EI", letter:"I", text:"Yolg'iz vaqt o'tkazish meni tiklaydi va kuch beradi."},
+  {axis:"EI", letter:"I", text:"Avval ichimda o'ylab, keyin gapirishni ma'qul ko'raman."},
+  {axis:"EI", letter:"I", text:"Kichik, yaqin doiradagi suhbatlar meni ko'proq qanoatlantiradi."},
+
+  {axis:"SN", letter:"S", text:"Aniq faktlar va tafsilotlarga birinchi navbatda e'tibor beraman."},
+  {axis:"SN", letter:"S", text:"Hozirgi va real narsalarda o'zimni ishonchliroq his qilaman."},
+  {axis:"SN", letter:"S", text:"Amaliy tajriba nazariyadan ko'ra ishonarliroq tuyuladi."},
+  {axis:"SN", letter:"N", text:"Kelajakdagi imkoniyatlar haqida o'ylashni yaxshi ko'raman."},
+  {axis:"SN", letter:"N", text:"Turli narsalar orasidagi umumiy naqsh va bog'lanishlarni tez ilg'ayman."},
+  {axis:"SN", letter:"N", text:"Yangi, notanish g'oyalar meni ko'proq qiziqtiradi."},
+
+  {axis:"TF", letter:"T", text:"Qaror qabul qilishda mantiq hissiyotdan ko'ra ustun turadi."},
+  {axis:"TF", letter:"T", text:"Adolat va haqiqat men uchun eng muhim mezonlardan biri."},
+  {axis:"TF", letter:"T", text:"Tanqidni shaxsiy emas, foydali ma'lumot sifatida qabul qilaman."},
+  {axis:"TF", letter:"F", text:"Qaror qabul qilishda odamlarning his-tuyg'ularini birinchi o'ringa qo'yaman."},
+  {axis:"TF", letter:"F", text:"Atrofimdagilarning kayfiyatini tezda sezib olaman."},
+  {axis:"TF", letter:"F", text:"Uyg'unlik va yaxshi munosabatlar men uchun katta qadriyat."},
+
+  {axis:"JP", letter:"J", text:"Reja tuzib, unga qat'iy amal qilishni yoqtiraman."},
+  {axis:"JP", letter:"J", text:"Ishni muddatidan oldin tugatib, tartib-intizomni saqlayman."},
+  {axis:"JP", letter:"J", text:"Aniqlik va tugallangan ish meni xotirjam qiladi."},
+  {axis:"JP", letter:"P", text:"Kutilmagan o'zgarishlarga tez moslashib ketaman."},
+  {axis:"JP", letter:"P", text:"Oxirgi daqiqada ish qilish meni unchalik qiynamaydi."},
+  {axis:"JP", letter:"P", text:"Erkin va ochiq qoldirilgan rejalarni afzal ko'raman."}
+];
+
+const LIKERT = [
+  {v:1, t:"Mutlaqo rozi emasman"},
+  {v:2, t:"Ko'proq rozi emasman"},
+  {v:3, t:"Farqi yo'q"},
+  {v:4, t:"Ko'proq roziman"},
+  {v:5, t:"Mutlaqo roziman"}
+];
+
+const TYPES = {
+  INTJ:{title:"Arxitektor-strateg", desc:"Uzoq muddatli rejalar tuzib, tizimni yaxlit ko'ra oladi; mustaqil ishlashni va aniq maqsadlarni yoqtiradi."},
+  INTP:{title:"Kashfiyotchi mutafakkir", desc:"G'oyalarni chuqur tahlil qiladi, savol berishdan charchamaydi; nazariy tizimlarni qurish uni qiziqtiradi."},
+  ENTJ:{title:"Tashkilotchi yetakchi", desc:"Qarorlarni tez qabul qiladi, jamoani natijaga yo'naltiradi; samaradorlik va o'sishga intiladi."},
+  ENTP:{title:"G'oyalar generatori", desc:"Munozarada o'sadi, muqobil yechimlarni topishni yaxshi ko'radi; o'zgarishdan qo'rqmaydi."},
+  INFJ:{title:"Ilhomchi maslahatchi", desc:"Chuqur ma'no va maqsadni izlaydi, boshqalarning ichki dunyosini yaxshi tushunadi."},
+  INFP:{title:"Orzuparast idealist", desc:"Qadriyatlarga sodiq, ijodiy va samimiy; o'z yo'lini o'zi tanlashni afzal ko'radi."},
+  ENFJ:{title:"Ilhomlantiruvchi rahbar", desc:"Odamlarni birlashtirib, ularning eng yaxshi tomonlarini ochishga yordam beradi."},
+  ENFP:{title:"Cheksiz g'ayratli", desc:"Yangi imkoniyatlarga ochiq, odamlar bilan tez til topishadi; ilhom bilan harakat qiladi."},
+  ISTJ:{title:"Ishonchli tashkilotchi", desc:"Vazifaga mas'uliyat bilan yondashadi, tartib va aniqlikni qadrlaydi; so'zida turadi."},
+  ISFJ:{title:"Sodiq homiy", desc:"Yaqinlariga g'amxo'rlik qiladi, amaliy yordamni so'zdan ko'ra ustun qo'yadi."},
+  ESTJ:{title:"Tartib ustasi", desc:"Jarayonlarni aniq boshqaradi, qoidalar va natijaga alohida e'tibor beradi."},
+  ESFJ:{title:"Hamjamiyat quruvchisi", desc:"Atrofdagilarning ehtiyojini sezadi, jamoa ruhini saqlashga harakat qiladi."},
+  ISTP:{title:"Amaliy hunarmand", desc:"Qo'l bilan ishlashni, muammoni sinov orqali yechishni yaxshi ko'radi; mustaqil harakat qiladi."},
+  ISFP:{title:"Nozik ijodkor", desc:"Go'zallikka sezgir, o'z his-tuyg'ulariga sodiq; ohista, ammo chuqur his qiladi."},
+  ESTP:{title:"Jasur amaliyotchi", desc:"Harakatda qaror qabul qiladi, xavf-xatardan qochmaydi; hayotni his qilib yashaydi."},
+  ESFP:{title:"Hayot bag'ishlovchi", desc:"Kayfiyatni ko'taradi, hoziru shu lahzadan zavq oladi; odamlar bilan bo'lishni yaxshi ko'radi."}
+};
+
+let state = {
+  view: "loading",
+  user: null,
+  theme: "light",
+  answers: {},
+  qIndex: 0,
+  authMode: "login",
+  authError: "",
+  lastResult: null
+};
+
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+
+function applyTheme(){ document.body.setAttribute("data-theme", state.theme === "dark" ? "dark" : "light"); }
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+const app = document.getElementById("app");
+const topActions = document.getElementById("topActions");
+
+function renderTopActions(){
+  if(state.user){
+    topActions.innerHTML = `
+      <span>${escapeHtml(state.user.username)}</span>
+      <button class="link" id="btnLogout">Chiqish</button>
+      <button class="theme-toggle" id="btnTheme">${state.theme==="dark"?"☾":"☀"}</button>
+    `;
+    document.getElementById("btnLogout").onclick = logout;
+  }else{
+    topActions.innerHTML = `<button class="theme-toggle" id="btnTheme">${state.theme==="dark"?"☾":"☀"}</button>`;
+  }
+  document.getElementById("btnTheme").onclick = toggleTheme;
+}
+
+async function toggleTheme(){
+  state.theme = state.theme === "dark" ? "light" : "dark";
+  applyTheme();
+  renderTopActions();
+  if(state.user){
+    try{ await api("/theme", {method:"POST", body:{theme:state.theme}}); }catch(e){}
+  }
+}
+
+function render(){
+  renderTopActions();
+  if(state.view === "auth") return renderAuth();
+  if(state.view === "home") return renderHome();
+  if(state.view === "test") return renderTest();
+  if(state.view === "result") return renderResult(state.lastResult);
+  app.innerHTML = "";
+}
+
+function renderAuth(){
+  const isLogin = state.authMode === "login";
+  app.innerHTML = `
+    <div class="hero fade-in">
+      <h1>${isLogin ? "Qaytib kelganingizdan xursandmiz." : "O'zingizni yaqindan tanish vaqti keldi."}</h1>
+      <p class="lead">O'zbek tilida tayyorlangan 24 savolli qisqa test orqali 16 shaxsiyat turidan qaysi biriga yaqinligingizni bilib oling.</p>
+    </div>
+    <div class="panel">
+      <div class="field">
+        <label>Foydalanuvchi nomi</label>
+        <input id="inpUsername" type="text" autocomplete="username" placeholder="masalan: dilnoza_k">
+      </div>
+      <div class="field">
+        <label>Parol</label>
+        <input id="inpPassword" type="password" autocomplete="${isLogin?"current-password":"new-password"}" placeholder="••••••">
+      </div>
+      <div class="form-error">${state.authError||""}</div>
+      <button class="btn violet block" id="btnAuthSubmit">${isLogin ? "Kirish" : "Ro'yxatdan o'tish"}</button>
+      <div class="form-switch">
+        ${isLogin ? "Akkountingiz yo'qmi?" : "Akkountingiz bormi?"}
+        <button id="btnAuthSwitch">${isLogin ? "Ro'yxatdan o'tish" : "Kirish"}</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("btnAuthSwitch").onclick = ()=>{
+    state.authMode = isLogin ? "register" : "login";
+    state.authError = "";
+    render();
+  };
+  document.getElementById("btnAuthSubmit").onclick = handleAuthSubmit;
+  document.getElementById("inpPassword").addEventListener("keydown", e=>{ if(e.key==="Enter") handleAuthSubmit(); });
+}
+
+async function handleAuthSubmit(){
+  const username = document.getElementById("inpUsername").value.trim();
+  const password = document.getElementById("inpPassword").value;
+  if(!username || !password){
+    state.authError = "Ikkala maydonni ham to'ldiring.";
+    return render();
+  }
+  const btn = document.getElementById("btnAuthSubmit");
+  btn.disabled = true;
+  try{
+    const endpoint = state.authMode === "register" ? "/register" : "/login";
+    const { user } = await api(endpoint, {method:"POST", body:{username, password}});
+    state.user = user;
+    state.theme = user.theme || state.theme;
+    applyTheme();
+    state.authError = "";
+    toast(`Xush kelibsiz, ${user.username}!`);
+    state.view = "home";
+    render();
+  }catch(e){
+    state.authError = e.message;
+    btn.disabled = false;
+    render();
+  }
+}
+
+async function logout(){
+  try{ await api("/logout", {method:"POST"}); }catch(e){}
+  state.user = null;
+  state.view = "auth";
+  state.authMode = "login";
+  render();
+}
+
+function renderHome(){
+  const results = state.user.results || [];
+  const last = results[results.length-1];
+  app.innerHTML = `
+    <div class="hero fade-in">
+      <h1>Assalomu alaykum, ${escapeHtml(state.user.username)}.</h1>
+      <p class="lead">${last ? "Oldingi natijangizni ko'rishingiz yoki testni qaytadan topshirishingiz mumkin." : "Hali test topshirmagansiz — boshlashga tayyormisiz?"}</p>
+      <div class="axis-row">
+        <div class="axis"><div class="pair">E<em>/</em>I</div><div class="label">Diqqat qayerga qaratiladi</div></div>
+        <div class="axis"><div class="pair">S<em>/</em>N</div><div class="label">Ma'lumot qanday qabul qilinadi</div></div>
+        <div class="axis"><div class="pair">T<em>/</em>F</div><div class="label">Qaror qanday qabul qilinadi</div></div>
+        <div class="axis"><div class="pair">J<em>/</em>P</div><div class="label">Hayotga munosabat</div></div>
+      </div>
+    </div>
+    <button class="btn violet block" id="btnStart">${last ? "Testni qaytadan topshirish" : "Testni boshlash"}</button>
+
+    ${last ? `
+      <div class="section-title">So'nggi natija</div>
+      <div class="panel" style="text-align:center; padding:26px;">
+        <div class="serif" style="font-size:34px; color:var(--violet); font-weight:900;">${last.type}</div>
+        <div style="margin-top:6px; color:var(--muted); font-size:14px;">${TYPES[last.type].title}</div>
+      </div>
+    ` : ""}
+
+    <div class="section-title">Tarix</div>
+    ${results.length ? results.slice().reverse().map(r=>`
+      <div class="history-item">
+        <span class="type">${r.type} — ${TYPES[r.type].title}</span>
+        <span class="date">${new Date(r.date).toLocaleDateString("uz-UZ")}</span>
+      </div>
+    `).join("") : `<div class="empty">Hozircha natijalar yo'q.</div>`}
+  `;
+  document.getElementById("btnStart").onclick = startTest;
+}
+
+function startTest(){
+  state.answers = {};
+  state.qIndex = 0;
+  state.view = "test";
+  render();
+}
+
+function renderTest(){
+  const q = QUESTIONS[state.qIndex];
+  const selected = state.answers[state.qIndex];
+  const pct = Math.round((state.qIndex)/QUESTIONS.length*100);
+  app.innerHTML = `
+    <div class="fade-in">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-count">${state.qIndex+1} / ${QUESTIONS.length}</div>
+      <div class="question">
+        <h2>${escapeHtml(q.text)}</h2>
+        <div class="likert">
+          ${LIKERT.map(l=>`
+            <button data-v="${l.v}" class="${selected===l.v?"selected":""}">
+              <span class="dot"></span>${l.t}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+      <div class="test-nav">
+        <button class="btn secondary" id="btnBack" ${state.qIndex===0?"disabled":""}>Orqaga</button>
+        <button class="btn violet" id="btnNext" ${selected===undefined?"disabled":""}>${state.qIndex===QUESTIONS.length-1?"Yakunlash":"Keyingisi"}</button>
+      </div>
+    </div>
+  `;
+  app.querySelectorAll(".likert button").forEach(btn=>{
+    btn.onclick = ()=>{ state.answers[state.qIndex] = parseInt(btn.dataset.v,10); render(); };
+  });
+  document.getElementById("btnBack").onclick = ()=>{ state.qIndex--; render(); };
+  document.getElementById("btnNext").onclick = ()=>{
+    if(state.qIndex === QUESTIONS.length-1){ finishTest(); }
+    else { state.qIndex++; render(); }
+  };
+}
+
+async function finishTest(){
+  const totals = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+  QUESTIONS.forEach((q,i)=>{ totals[q.letter] += (state.answers[i]||3); });
+  const type =
+    (totals.E>=totals.I?"E":"I") +
+    (totals.S>=totals.N?"S":"N") +
+    (totals.T>=totals.F?"T":"F") +
+    (totals.J>=totals.P?"J":"P");
+
+  const traitPairs = [["E","I"],["S","N"],["T","F"],["J","P"]];
+  const traitPct = traitPairs.map(([a,b])=>{
+    const sum = totals[a]+totals[b];
+    return {a,b, pctA: Math.round(totals[a]/sum*100)};
+  });
+
+  try{
+    const { user } = await api("/results", {method:"POST", body:{type}});
+    state.user = user;
+  }catch(e){
+    toast("Natijani saqlashda xatolik: " + e.message);
+  }
+
+  state.lastResult = { type, date: Date.now(), traitPct };
+  state.view = "result";
+  render();
+}
+
+function renderResult(result){
+  const info = TYPES[result.type];
+  app.innerHTML = `
+    <div class="result-hero fade-in">
+      <div class="result-letters">${result.type}</div>
+      <div class="result-title serif">${info.title}</div>
+      <p class="result-desc">${info.desc}</p>
+    </div>
+    <div class="trait-bars">
+      ${result.traitPct.map(t=>`
+        <div class="trait-bar-row">
+          <span>${t.a}</span>
+          <div class="trait-track"><div class="trait-fill" style="left:0; width:${t.pctA}%;"></div></div>
+          <span style="text-align:right;">${t.b}</span>
+        </div>
+      `).join("")}
+    </div>
+    <div class="result-actions">
+      <button class="btn violet" id="btnCopy">Natijani nusxalash</button>
+      <button class="btn secondary" id="btnRetake">Qaytadan topshirish</button>
+      <button class="btn secondary" id="btnHome">Bosh sahifa</button>
+    </div>
+  `;
+  document.getElementById("btnCopy").onclick = async ()=>{
+    const text = `Mening shaxsiyat turim: ${result.type} — ${info.title}`;
+    try{ await navigator.clipboard.writeText(text); toast("Nusxalandi."); }
+    catch(e){ toast(text); }
+  };
+  document.getElementById("btnRetake").onclick = startTest;
+  document.getElementById("btnHome").onclick = ()=>{ state.view="home"; render(); };
+}
+
+async function init(){
+  applyTheme();
+  try{
+    const { user } = await api("/me");
+    state.user = user;
+    state.theme = user.theme || state.theme;
+    applyTheme();
+    state.view = "home";
+  }catch(e){
+    state.view = "auth";
+  }
+  render();
+}
+
+init();
+
+document.addEventListener("keydown", (e)=>{
+  if(state.view !== "test") return;
+  if(["1","2","3","4","5"].includes(e.key)){
+    state.answers[state.qIndex] = parseInt(e.key,10);
+    render();
+  }
+});
+</script>
+</body>
+</html>
