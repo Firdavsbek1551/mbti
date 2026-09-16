@@ -5,48 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shaxsiyat testi — 16 tur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F7F5F1;
+    --bg:#FBF6EF;
+    --bg2:#F5ECF7;
     --surface:#FFFFFF;
-    --ink:#221F26;
-    --muted:#847F76;
-    --line:rgba(34,31,38,0.13);
-    --violet:#4B3F72;
-    --violet-soft:#EAE6F4;
-    --amber:#D9932E;
-    --sage:#5F7F63;
-    --danger:#B8482F;
-    --radius:3px;
+    --ink:#241F2E;
+    --muted:#8C8494;
+    --line:rgba(36,31,46,0.11);
+    --violet:#7C5CFC;
+    --violet-soft:#EFE9FF;
+    --teal:#18A57F;
+    --teal-soft:#E2F6EE;
+    --blue:#3E7CFF;
+    --blue-soft:#E7EEFF;
+    --amber:#F07C3B;
+    --amber-soft:#FDEBDD;
+    --danger:#DA4A56;
+    --accent:var(--violet);
+    --accent-soft:var(--violet-soft);
+    --radius:16px;
+    --radius-sm:10px;
   }
   [data-theme="dark"]{
-    --bg:#1A1620;
-    --surface:#221C2B;
-    --ink:#F1ECE4;
-    --muted:#9A93A6;
-    --line:rgba(241,236,228,0.14);
-    --violet:#B7A8E8;
-    --violet-soft:#332B47;
-    --amber:#E9B458;
-    --sage:#8FB496;
+    --bg:#1D1822;
+    --bg2:#241C2B;
+    --surface:#2A2231;
+    --ink:#F3ECE4;
+    --muted:#A79EB0;
+    --line:rgba(243,236,228,0.12);
+    --violet:#A98CFF;
+    --violet-soft:#372C55;
+    --teal:#3FD3A6;
+    --teal-soft:#1E3A34;
+    --blue:#7FA3FF;
+    --blue-soft:#22304F;
+    --amber:#FFA363;
+    --amber-soft:#4A3220;
+    --danger:#FF8790;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--bg);
+    background:linear-gradient(180deg, var(--bg), var(--bg2) 340px, var(--bg) 900px);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
     transition:background .3s ease, color .3s ease;
+    position:relative;
+    overflow-x:hidden;
   }
   h1,h2,h3,.serif{ font-family:'Fraunces',serif; font-weight:600; letter-spacing:-0.01em; }
   a{ color:inherit; }
   button{ font-family:'Inter',sans-serif; cursor:pointer; }
   ::selection{ background:var(--violet-soft); }
 
-  .shell{ max-width:640px; margin:0 auto; padding:0 24px 80px; }
+  .blob{ position:fixed; border-radius:50%; filter:blur(70px); opacity:.35; z-index:-1; pointer-events:none; }
+  .blob-a{ width:420px; height:420px; top:-120px; right:-100px; background:var(--violet); }
+  .blob-b{ width:360px; height:360px; top:280px; left:-140px; background:var(--amber); opacity:.25; }
+  .blob-c{ width:300px; height:300px; bottom:-80px; right:10%; background:var(--teal); opacity:.22; }
+
+  .shell{ max-width:640px; margin:0 auto; padding:0 24px 90px; position:relative; }
   .wide{ max-width:860px; }
 
   .topbar{
@@ -59,103 +80,148 @@
   .top-actions button.link{ background:none;border:none;color:var(--muted);font-size:14px;padding:0; }
   .top-actions button.link:hover{ color:var(--ink); }
   .theme-toggle{
-    width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+    width:36px;height:36px;border-radius:50%;border:1px solid var(--line);
     background:var(--surface); display:flex;align-items:center;justify-content:center;
-    font-size:15px;
+    font-size:15px; box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .theme-toggle:hover{ transform:scale(1.06); }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--accent);
+    background:var(--accent-soft); border-radius:100px; padding:6px 14px; margin-bottom:18px; font-weight:600;
   }
 
-  .hero{ padding:64px 0 40px; }
-  .hero h1{ font-size:46px; line-height:1.08; margin:0 0 18px; max-width:9.5em;}
-  .hero p.lead{ font-size:17px; line-height:1.6; color:var(--muted); max-width:34em; margin:0 0 34px;}
-  .axis-row{ display:flex; gap:0; border-top:1px solid var(--line); margin-top:8px; }
-  .axis{ flex:1; padding:18px 4px 0; border-right:1px solid var(--line); }
-  .axis:last-child{ border-right:none; }
-  .axis .pair{ font-family:'Fraunces',serif; font-size:26px; font-weight:600;}
-  .axis .pair em{ font-style:italic; color:var(--violet); font-weight:500;}
-  .axis .label{ font-size:12.5px; color:var(--muted); margin-top:4px; line-height:1.4;}
+  .hero{ padding:52px 0 34px; }
+  .hero > *{ animation:fadeUp .55s ease both; }
+  .hero > *:nth-child(1){ animation-delay:.02s; }
+  .hero > *:nth-child(2){ animation-delay:.08s; }
+  .hero > *:nth-child(3){ animation-delay:.14s; }
+  .hero > *:nth-child(4){ animation-delay:.2s; }
+  .hero > *:nth-child(5){ animation-delay:.26s; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;} }
+  .hero h1{ font-size:44px; line-height:1.1; margin:0 0 16px; max-width:10em;}
+  .hero p.lead{ font-size:17px; line-height:1.6; color:var(--muted); max-width:34em; margin:0 0 26px;}
+
+  .stats-row{ display:flex; flex-wrap:wrap; gap:9px; margin-bottom:28px; }
+  .stats-row span{
+    font-size:13px; color:var(--ink); border:1px solid var(--line); border-radius:100px;
+    padding:7px 14px; background:var(--surface); font-weight:500;
+  }
+  .stats-row span b{ color:var(--accent); }
+
+  .marquee{ overflow:hidden; padding:6px 0 4px; margin-bottom:8px;
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee-track{ display:flex; gap:10px; width:max-content; animation:scrollX 30s linear infinite; }
+  .marquee:hover .marquee-track{ animation-play-state:paused; }
+  .type-chip{
+    font-size:13px; font-weight:600; border-radius:100px; padding:8px 15px; white-space:nowrap;
+    border:1px solid transparent;
+  }
+  @keyframes scrollX{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  .modules{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:6px; }
+  .module{
+    position:relative; padding:18px 14px; border-radius:var(--radius);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .module:hover{ transform:translateY(-4px); box-shadow:0 12px 26px rgba(0,0,0,0.08); }
+  .module .pair{ font-family:'Fraunces',serif; font-size:24px; font-weight:700; }
+  .module .pair em{ font-style:normal; opacity:.55; }
+  .module .label{ font-size:11.5px; margin-top:6px; line-height:1.4; opacity:.75; }
 
   .btn{
-    display:inline-flex; align-items:center; justify-content:center;
-    padding:13px 26px; border-radius:var(--radius); border:1px solid var(--ink);
-    background:var(--ink); color:var(--bg); font-size:15px; font-weight:500;
-    transition:opacity .15s ease, transform .1s ease;
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    padding:14px 26px; border-radius:100px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink); font-size:15px; font-weight:600;
+    transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
   }
-  .btn:hover{ opacity:.85; }
-  .btn:active{ transform:scale(.98); }
-  .btn.secondary{ background:transparent; color:var(--ink); border:1px solid var(--line); }
-  .btn.violet{ background:var(--violet); border-color:var(--violet); color:#fff;}
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,0.08); }
+  .btn:active{ transform:translateY(0) scale(.98); }
+  .btn.secondary{ background:transparent; }
+  .btn.violet{ background:var(--accent); border-color:var(--accent); color:#fff; box-shadow:0 8px 22px rgba(124,92,252,0.28);}
   .btn.block{ width:100%; }
   .btn[disabled]{ opacity:.4; pointer-events:none; }
 
   .field{ margin-bottom:20px; }
-  .field label{ display:block; font-size:13px; color:var(--muted); margin-bottom:7px; }
+  .field label{ display:block; font-size:13px; color:var(--muted); margin-bottom:7px; font-weight:500; }
   .field input{
-    width:100%; padding:12px 2px; border:none; border-bottom:1px solid var(--line);
-    background:transparent; color:var(--ink); font-size:16px; font-family:'Inter',sans-serif;
-    outline:none;
+    width:100%; padding:13px 15px; border:1px solid var(--line); border-radius:var(--radius-sm);
+    background:var(--bg); color:var(--ink); font-size:16px; font-family:'Inter',sans-serif;
+    outline:none; transition:border-color .15s ease;
   }
-  .field input:focus{ border-bottom-color:var(--violet); }
+  .field input:focus{ border-color:var(--accent); }
+  .field-hint{ font-size:12.5px; color:var(--muted); margin-top:7px; line-height:1.5; }
   .form-error{ color:var(--danger); font-size:13.5px; margin:-6px 0 18px; min-height:1em; }
   .form-switch{ font-size:14px; color:var(--muted); margin-top:22px; }
-  .form-switch button{ background:none; border:none; color:var(--violet); font-size:14px; padding:0; text-decoration:underline; }
+  .form-switch button{ background:none; border:none; color:var(--accent); font-size:14px; padding:0; font-weight:600; }
 
-  .panel{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:36px 30px; }
+  .panel{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:32px 28px;
+    box-shadow:0 16px 40px rgba(36,31,46,0.06); }
 
-  .progress-track{ height:2px; background:var(--line); border-radius:2px; overflow:hidden; margin-bottom:10px; }
-  .progress-fill{ height:100%; background:var(--violet); transition:width .3s ease; }
-  .progress-count{ font-size:13px; color:var(--muted); margin-bottom:38px; }
-  .question h2{ font-size:26px; line-height:1.35; margin:0 0 32px; font-weight:500; }
-  .likert{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line); }
+  .progress-dots{ display:flex; gap:5px; margin-bottom:10px; flex-wrap:wrap; }
+  .progress-dots span{ height:5px; flex:1; min-width:8px; border-radius:4px; background:var(--line); }
+  .progress-dots span.done{ background:var(--accent); }
+  .progress-count{ font-size:13px; color:var(--muted); margin-bottom:34px; }
+  .question h2{ font-size:25px; line-height:1.4; margin:0 0 28px; font-weight:600; }
+  .likert{ display:flex; flex-direction:column; gap:9px; }
   .likert button{
-    display:flex; align-items:center; gap:16px;
-    width:100%; text-align:left; background:none; border:none; border-bottom:1px solid var(--line);
-    padding:16px 4px; font-size:15px; color:var(--ink); font-family:'Inter',sans-serif;
+    display:flex; align-items:center; gap:14px;
+    width:100%; text-align:left; background:var(--surface); border:1.5px solid var(--line); border-radius:var(--radius-sm);
+    padding:15px 16px; font-size:15px; color:var(--ink); font-family:'Inter',sans-serif;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
   }
-  .likert button .dot{ width:16px;height:16px;border-radius:50%; border:1.5px solid var(--muted); flex-shrink:0; }
-  .likert button:hover{ color:var(--violet); }
-  .likert button:hover .dot{ border-color:var(--violet); }
-  .likert button.selected .dot{ background:var(--violet); border-color:var(--violet); }
-  .likert button.selected{ color:var(--violet); }
-  .test-nav{ display:flex; justify-content:space-between; margin-top:34px; }
+  .likert button .dot{ width:18px;height:18px;border-radius:50%; border:1.5px solid var(--line); flex-shrink:0; }
+  .likert button:hover{ border-color:var(--accent); }
+  .likert button.selected{ border-color:var(--accent); background:var(--accent-soft); }
+  .likert button.selected .dot{ background:var(--accent); border-color:var(--accent); }
+  .test-nav{ display:flex; justify-content:space-between; margin-top:30px; }
 
-  .result-hero{ text-align:center; padding:30px 0 10px; }
-  .result-letters{
-    font-family:'Fraunces',serif; font-size:76px; font-weight:900; letter-spacing:0.02em;
-    color:var(--violet); line-height:1;
+  .result-card{
+    text-align:center; padding:48px 28px; border-radius:24px; position:relative; overflow:hidden;
+    animation:fadeUp .5s ease both;
   }
-  .result-title{ font-size:21px; margin-top:14px; }
-  .result-desc{ color:var(--muted); font-size:15.5px; line-height:1.7; max-width:40em; margin:18px auto 0; }
-  .trait-bars{ margin-top:40px; display:flex; flex-direction:column; gap:18px; }
-  .trait-bar-row{ display:grid; grid-template-columns:1fr 3fr 1fr; align-items:center; gap:10px; font-size:13px; color:var(--muted); }
-  .trait-track{ height:6px; background:var(--line); border-radius:4px; overflow:hidden; position:relative; }
-  .trait-fill{ position:absolute; top:0; bottom:0; background:var(--amber); border-radius:4px; }
-  .result-actions{ display:flex; gap:12px; margin-top:38px; flex-wrap:wrap; justify-content:center; }
+  .result-card .confetti{ position:absolute; border-radius:50%; opacity:.5; }
+  .eyebrow-light{ font-size:13px; font-weight:700; letter-spacing:0.04em; opacity:.8; margin-bottom:8px; }
+  .result-letters{ font-family:'Fraunces',serif; font-size:78px; font-weight:900; line-height:1; position:relative; }
+  .result-title{ font-size:22px; margin-top:12px; font-weight:600; position:relative; }
+  .result-desc{ font-size:15.5px; line-height:1.75; max-width:38em; margin:18px auto 0; opacity:.9; position:relative; }
+  .trait-bars{ margin-top:38px; display:flex; flex-direction:column; gap:16px; }
+  .trait-bar-row{ display:grid; grid-template-columns:1.1fr 3fr 1.1fr; align-items:center; gap:10px; font-size:13px; color:var(--muted); font-weight:600; }
+  .trait-track{ height:8px; background:var(--line); border-radius:6px; overflow:hidden; position:relative; }
+  .trait-fill{ position:absolute; top:0; bottom:0; left:0; border-radius:6px; }
+  .result-actions{ display:flex; gap:10px; margin-top:36px; flex-wrap:wrap; justify-content:center; }
 
-  .history-item{ display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line); font-size:14.5px; }
-  .history-item .type{ font-family:'Fraunces',serif; font-weight:600; color:var(--violet); }
+  .history-item{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 6px; border-bottom:1px solid var(--line); font-size:14.5px;
+  }
+  .history-item .type{ font-family:'Fraunces',serif; font-weight:700; }
   .history-item .date{ color:var(--muted); font-size:13px; }
 
   .toast{
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
-    background:var(--ink); color:var(--bg); padding:12px 20px; border-radius:var(--radius);
+    background:var(--ink); color:var(--bg); padding:12px 22px; border-radius:100px;
     font-size:14px; opacity:0; transition:all .25s ease; pointer-events:none; z-index:50;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
   }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-  .section-title{ font-size:14px; color:var(--muted); margin:44px 0 18px; letter-spacing:0.02em;}
+  .section-title{ font-size:14px; color:var(--muted); margin:44px 0 18px; font-weight:600; }
   .empty{ color:var(--muted); font-size:14.5px; padding:20px 0; }
 
   footer{
     max-width:860px; margin:60px auto 0; padding:24px; border-top:1px solid var(--line);
     font-size:12.5px; color:var(--muted); text-align:center;
   }
+  footer a{ color:var(--accent); text-decoration:none; font-weight:600; }
+  footer a:hover{ text-decoration:underline; }
 
   @media (max-width:600px){
-    .hero h1{ font-size:34px; }
-    .axis-row{ flex-wrap:wrap; }
-    .axis{ flex:0 0 50%; border-right:none; border-bottom:1px solid var(--line); padding-bottom:14px;}
+    .hero h1{ font-size:33px; }
+    .modules{ grid-template-columns:repeat(2,1fr); }
     .result-letters{ font-size:56px; }
     .topbar{ padding:20px 20px 0; }
+    .blob{ opacity:.2; }
   }
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
   .fade-in{ animation:fadeIn .35s ease; }
@@ -163,6 +229,10 @@
 </style>
 </head>
 <body>
+
+<div class="blob blob-a"></div>
+<div class="blob blob-b"></div>
+<div class="blob blob-c"></div>
 
 <div class="topbar">
   <div class="brand">shaxsiyat<span>.uz</span></div>
@@ -194,33 +264,33 @@ async function api(path, options={}){
 }
 
 const QUESTIONS = [
-  {axis:"EI", letter:"E", text:"Katta kompaniyalarda o'zimni energiyaga to'lgandek his qilaman."},
-  {axis:"EI", letter:"E", text:"Notanish odamlar bilan suhbatni boshlash men uchun oson."},
-  {axis:"EI", letter:"E", text:"Fikrlarimni ovoz chiqarib gapirib, tartibga solaman."},
-  {axis:"EI", letter:"I", text:"Yolg'iz vaqt o'tkazish meni tiklaydi va kuch beradi."},
-  {axis:"EI", letter:"I", text:"Avval ichimda o'ylab, keyin gapirishni ma'qul ko'raman."},
-  {axis:"EI", letter:"I", text:"Kichik, yaqin doiradagi suhbatlar meni ko'proq qanoatlantiradi."},
+  {axis:"EI", letter:"E", text:"Ko'p odam bilan bo'lsam charchamayman, aksincha kayfiyatim ko'tariladi."},
+  {axis:"EI", letter:"E", text:"Notanish odam bilan tanishib, gaplashib qolish menga oson."},
+  {axis:"EI", letter:"E", text:"Fikrimni tushunish uchun uni ovoz chiqarib, boshqalarga gapirib berishim kerak."},
+  {axis:"EI", letter:"I", text:"Ko'p odam orasida uzoq bo'lsam charchayman, yolg'iz qolgim keladi."},
+  {axis:"EI", letter:"I", text:"Gapirishdan oldin, avval o'zim ichimda yaxshilab o'ylab olaman."},
+  {axis:"EI", letter:"I", text:"Katta olomondan ko'ra, 1-2 yaqin do'stim bilan gaplashishni yaxshi ko'raman."},
 
-  {axis:"SN", letter:"S", text:"Aniq faktlar va tafsilotlarga birinchi navbatda e'tibor beraman."},
-  {axis:"SN", letter:"S", text:"Hozirgi va real narsalarda o'zimni ishonchliroq his qilaman."},
-  {axis:"SN", letter:"S", text:"Amaliy tajriba nazariyadan ko'ra ishonarliroq tuyuladi."},
-  {axis:"SN", letter:"N", text:"Kelajakdagi imkoniyatlar haqida o'ylashni yaxshi ko'raman."},
-  {axis:"SN", letter:"N", text:"Turli narsalar orasidagi umumiy naqsh va bog'lanishlarni tez ilg'ayman."},
-  {axis:"SN", letter:"N", text:"Yangi, notanish g'oyalar meni ko'proq qiziqtiradi."},
+  {axis:"SN", letter:"S", text:"Kimdir gapirganda, uning aniq dalil va misollarga ega bo'lishi men uchun muhim."},
+  {axis:"SN", letter:"S", text:"Kelajak haqida o'ylashdan ko'ra, hozir nima qilish kerakligiga ko'proq qarayman."},
+  {axis:"SN", letter:"S", text:"O'zim ko'rib, sinab ko'rgan narsaga eshitgan gapdan ko'ra ko'proq ishonaman."},
+  {axis:"SN", letter:"N", text:"Kelajakda nima bo'lishi mumkinligini tasavvur qilib, orzu qilishni yaxshi ko'raman."},
+  {axis:"SN", letter:"N", text:"Ikkita boshqa-boshqa narsa orasidagi bog'lanishni tez payqab qolaman."},
+  {axis:"SN", letter:"N", text:"Hech kim o'ylab ko'rmagan, g'alati va yangi g'oyalar meni qiziqtiradi."},
 
-  {axis:"TF", letter:"T", text:"Qaror qabul qilishda mantiq hissiyotdan ko'ra ustun turadi."},
-  {axis:"TF", letter:"T", text:"Adolat va haqiqat men uchun eng muhim mezonlardan biri."},
-  {axis:"TF", letter:"T", text:"Tanqidni shaxsiy emas, foydali ma'lumot sifatida qabul qilaman."},
-  {axis:"TF", letter:"F", text:"Qaror qabul qilishda odamlarning his-tuyg'ularini birinchi o'ringa qo'yaman."},
-  {axis:"TF", letter:"F", text:"Atrofimdagilarning kayfiyatini tezda sezib olaman."},
-  {axis:"TF", letter:"F", text:"Uyg'unlik va yaxshi munosabatlar men uchun katta qadriyat."},
+  {axis:"TF", letter:"T", text:"Qaror qabul qilganimda, birov xafa bo'lsa ham, to'g'ri deb bilgan yo'lni tanlayman."},
+  {axis:"TF", letter:"T", text:"Meni kimdir tanqid qilsa, xafa bo'lishdan ko'ra, \"to'g'ri gap-ku\" deb o'ylayman."},
+  {axis:"TF", letter:"T", text:"Adolatli bo'lish men uchun kimningdir xafa bo'lmasligidan ko'ra muhimroq."},
+  {axis:"TF", letter:"F", text:"Qaror qabul qilganimda, bu odamlarga qanday ta'sir qilishini birinchi o'ylayman."},
+  {axis:"TF", letter:"F", text:"Kimdir gapirmasa ham, uning xafa yoki xursand ekanini sezib qolaman."},
+  {axis:"TF", letter:"F", text:"Atrofimdagilar bilan yaxshi munosabatda bo'lish men uchun juda muhim."},
 
-  {axis:"JP", letter:"J", text:"Reja tuzib, unga qat'iy amal qilishni yoqtiraman."},
-  {axis:"JP", letter:"J", text:"Ishni muddatidan oldin tugatib, tartib-intizomni saqlayman."},
-  {axis:"JP", letter:"J", text:"Aniqlik va tugallangan ish meni xotirjam qiladi."},
-  {axis:"JP", letter:"P", text:"Kutilmagan o'zgarishlarga tez moslashib ketaman."},
-  {axis:"JP", letter:"P", text:"Oxirgi daqiqada ish qilish meni unchalik qiynamaydi."},
-  {axis:"JP", letter:"P", text:"Erkin va ochiq qoldirilgan rejalarni afzal ko'raman."}
+  {axis:"JP", letter:"J", text:"Ishlarimni oldindan rejalashtirib qo'yishni yaxshi ko'raman."},
+  {axis:"JP", letter:"J", text:"Boshlagan ishimni oxirigacha yetkazmasam, xotirjam bo'la olmayman."},
+  {axis:"JP", letter:"J", text:"Tartibsizlik va noaniqlik meni bezovta qiladi."},
+  {axis:"JP", letter:"P", text:"Reja birdan o'zgarib qolsa ham, muammo qilmayman, tez moslashaman."},
+  {axis:"JP", letter:"P", text:"Ishni oxirgi daqiqada qilsam ham, ulguraman deb o'ylayman."},
+  {axis:"JP", letter:"P", text:"Qattiq rejadan ko'ra, erkin va ochiq bo'lishni yaxshi ko'raman."}
 ];
 
 const LIKERT = [
@@ -232,23 +302,33 @@ const LIKERT = [
 ];
 
 const TYPES = {
-  INTJ:{title:"Arxitektor-strateg", desc:"Uzoq muddatli rejalar tuzib, tizimni yaxlit ko'ra oladi; mustaqil ishlashni va aniq maqsadlarni yoqtiradi."},
-  INTP:{title:"Kashfiyotchi mutafakkir", desc:"G'oyalarni chuqur tahlil qiladi, savol berishdan charchamaydi; nazariy tizimlarni qurish uni qiziqtiradi."},
-  ENTJ:{title:"Tashkilotchi yetakchi", desc:"Qarorlarni tez qabul qiladi, jamoani natijaga yo'naltiradi; samaradorlik va o'sishga intiladi."},
-  ENTP:{title:"G'oyalar generatori", desc:"Munozarada o'sadi, muqobil yechimlarni topishni yaxshi ko'radi; o'zgarishdan qo'rqmaydi."},
-  INFJ:{title:"Ilhomchi maslahatchi", desc:"Chuqur ma'no va maqsadni izlaydi, boshqalarning ichki dunyosini yaxshi tushunadi."},
-  INFP:{title:"Orzuparast idealist", desc:"Qadriyatlarga sodiq, ijodiy va samimiy; o'z yo'lini o'zi tanlashni afzal ko'radi."},
-  ENFJ:{title:"Ilhomlantiruvchi rahbar", desc:"Odamlarni birlashtirib, ularning eng yaxshi tomonlarini ochishga yordam beradi."},
-  ENFP:{title:"Cheksiz g'ayratli", desc:"Yangi imkoniyatlarga ochiq, odamlar bilan tez til topishadi; ilhom bilan harakat qiladi."},
-  ISTJ:{title:"Ishonchli tashkilotchi", desc:"Vazifaga mas'uliyat bilan yondashadi, tartib va aniqlikni qadrlaydi; so'zida turadi."},
-  ISFJ:{title:"Sodiq homiy", desc:"Yaqinlariga g'amxo'rlik qiladi, amaliy yordamni so'zdan ko'ra ustun qo'yadi."},
-  ESTJ:{title:"Tartib ustasi", desc:"Jarayonlarni aniq boshqaradi, qoidalar va natijaga alohida e'tibor beradi."},
-  ESFJ:{title:"Hamjamiyat quruvchisi", desc:"Atrofdagilarning ehtiyojini sezadi, jamoa ruhini saqlashga harakat qiladi."},
-  ISTP:{title:"Amaliy hunarmand", desc:"Qo'l bilan ishlashni, muammoni sinov orqali yechishni yaxshi ko'radi; mustaqil harakat qiladi."},
-  ISFP:{title:"Nozik ijodkor", desc:"Go'zallikka sezgir, o'z his-tuyg'ulariga sodiq; ohista, ammo chuqur his qiladi."},
-  ESTP:{title:"Jasur amaliyotchi", desc:"Harakatda qaror qabul qiladi, xavf-xatardan qochmaydi; hayotni his qilib yashaydi."},
-  ESFP:{title:"Hayot bag'ishlovchi", desc:"Kayfiyatni ko'taradi, hoziru shu lahzadan zavq oladi; odamlar bilan bo'lishni yaxshi ko'radi."}
+  INTJ:{title:"Arxitektor-strateg", desc:"Uzoq muddatli rejalar tuzib, tizimni yaxlit ko'ra oladi; mustaqil ishlashni va aniq maqsadlarni yoqtiradi. Muammoni yechishda o'z yo'lini tanlaydi, ortiqcha nazoratni yoqtirmaydi. Kuchli tomoni — chuqur tahlil va uzoqni ko'ra bilish; rivojlanishi kerak bo'lgan joyi — his-tuyg'ularni ham inobatga olish."},
+  INTP:{title:"Kashfiyotchi mutafakkir", desc:"G'oyalarni chuqur tahlil qiladi, savol berishdan charchamaydi; nazariy tizimlarni qurish uni qiziqtiradi. Murakkab masalalarni tushunishga vaqt sarflashdan zavq oladi, tayyor javobga darrov ishonmaydi. Kuchli tomoni — mantiqiy fikrlash; ba'zan amaliy ishga o'tishni kechiktirib yuborishi mumkin."},
+  ENTJ:{title:"Tashkilotchi yetakchi", desc:"Qarorlarni tez qabul qiladi, jamoani natijaga yo'naltiradi; samaradorlik va o'sishga intiladi. Katta maqsad qo'yib, unga erishish yo'lini tuzishni yaxshi ko'radi. Kuchli tomoni — qat'iyat va tashkilotchilik; rivojlanishi kerak bo'lgan joyi — boshqalarning fikriga sabr bilan quloq solish."},
+  ENTP:{title:"G'oyalar generatori", desc:"Munozarada o'sadi, muqobil yechimlarni topishni yaxshi ko'radi; o'zgarishdan qo'rqmaydi. Yangi loyihani boshlashga ishtiyoqi baland, lekin uni oxirigacha yetkazish ustida ishlashi kerak. Kuchli tomoni — ijodiy fikrlash va moslashuvchanlik."},
+  INFJ:{title:"Ilhomchi maslahatchi", desc:"Chuqur ma'no va maqsadni izlaydi, boshqalarning ichki dunyosini yaxshi tushunadi. Kam so'z bilan ko'p narsani anglatadigan, atrofdagilarga g'amxo'r munosabatda bo'ladi. Kuchli tomoni — sezgirlik va samimiylik; o'zini his-tuyg'ular bilan ortiqcha band qilib qo'yishi mumkin."},
+  INFP:{title:"Orzuparast idealist", desc:"Qadriyatlarga sodiq, ijodiy va samimiy; o'z yo'lini o'zi tanlashni afzal ko'radi. Ichki dunyosi boy, narsalarni chuqur his qiladi va ma'noli ishga intiladi. Kuchli tomoni — sadoqat va ijodkorlik; qat'iy qoidalar ostida o'zini erkin his qilmasligi mumkin."},
+  ENFJ:{title:"Ilhomlantiruvchi rahbar", desc:"Odamlarni birlashtirib, ularning eng yaxshi tomonlarini ochishga yordam beradi. Boshqalarning rivojlanishidan chin dildan quvonadi, jamoada ijobiy muhit yaratadi. Kuchli tomoni — ilhomlantirish qobiliyati; o'zining ehtiyojlarini orqa planga surib qo'yishi mumkin."},
+  ENFP:{title:"Cheksiz g'ayratli", desc:"Yangi imkoniyatlarga ochiq, odamlar bilan tez til topishadi; ilhom bilan harakat qiladi. Hayotga qiziqish bilan qaraydi, ko'p narsani sinab ko'rishni yoqtiradi. Kuchli tomoni — energiya va ijodkorlik; diqqatni bir joyga jamlash qiyinroq kechishi mumkin."},
+  ISTJ:{title:"Ishonchli tashkilotchi", desc:"Vazifaga mas'uliyat bilan yondashadi, tartib va aniqlikni qadrlaydi; so'zida turadi. Ishni bosqichma-bosqich, puxta bajarishni yaxshi ko'radi, va'daga sodiq. Kuchli tomoni — barqarorlik va ishonchlilik; kutilmagan o'zgarishlarga moslashish biroz vaqt oladi."},
+  ISFJ:{title:"Sodiq homiy", desc:"Yaqinlariga g'amxo'rlik qiladi, amaliy yordamni so'zdan ko'ra ustun qo'yadi. Boshqalarning ehtiyojini sezgirlik bilan payqaydi va yordam berishdan zavq oladi. Kuchli tomoni — sadoqat va mehribonlik; o'z ehtiyojlarini aytishdan tortinishi mumkin."},
+  ESTJ:{title:"Tartib ustasi", desc:"Jarayonlarni aniq boshqaradi, qoidalar va natijaga alohida e'tibor beradi. Ishni tezda tashkil qilib, jamoani belgilangan maqsad sari yetaklaydi. Kuchli tomoni — intizom va mas'uliyat; moslashuvchanlikni oshirish foyda beradi."},
+  ESFJ:{title:"Hamjamiyat quruvchisi", desc:"Atrofdagilarning ehtiyojini sezadi, jamoa ruhini saqlashga harakat qiladi. Odamlar orasida uyg'unlik yaratishni, birgalikda ishlashni yaxshi ko'radi. Kuchli tomoni — mehribonlik va tashkilotchilik; boshqalar nima deydi degan tashvishni kamaytirish foydali."},
+  ISTP:{title:"Amaliy hunarmand", desc:"Qo'l bilan ishlashni, muammoni sinov orqali yechishni yaxshi ko'radi; mustaqil harakat qiladi. Vaziyatga tez moslashadi, nazariyadan ko'ra amaliy natijaga qiziqadi. Kuchli tomoni — sovuqqonlik va aniqlik; his-tuyg'ularini ifodalash unga qiyinroq kelishi mumkin."},
+  ISFP:{title:"Nozik ijodkor", desc:"Go'zallikka sezgir, o'z his-tuyg'ulariga sodiq; ohista, ammo chuqur his qiladi. Erkinlikni qadrlaydi, o'z did va qarashlarini tinch, bosim o'tkazmasdan namoyon qiladi. Kuchli tomoni — did va samimiylik; qat'iy tanqidga nisbatan sezgirroq bo'lishi mumkin."},
+  ESTP:{title:"Jasur amaliyotchi", desc:"Harakatda qaror qabul qiladi, xavf-xatardan qochmaydi; hayotni his qilib yashaydi. Vaziyatga tez moslashadi, muammoni darhol, amalda hal qilishni yoqtiradi. Kuchli tomoni — jasorat va tezkorlik; uzoq muddatli rejalashtirish uni unchalik qiziqtirmasligi mumkin."},
+  ESFP:{title:"Hayot bag'ishlovchi", desc:"Kayfiyatni ko'taradi, hoziru shu lahzadan zavq oladi; odamlar bilan bo'lishni yaxshi ko'radi. Atrofga quvonch ulashadi, yangi tajribalarga ochiq. Kuchli tomoni — samimiylik va energiya; jiddiy vazifalarda intizomni saqlash ustida ishlashi foydali."}
 };
+
+/* Har bir tur 4 ta "oilaga" bo'linadi, har biriga o'z rangi biriktiriladi —
+   natija ekrani va sahifa shu rangda "jonlanadi". */
+function groupOf(type){
+  const n = type[1], f2 = type[2], f3 = type[3];
+  if(n === "N" && f2 === "T") return "violet";
+  if(n === "N" && f2 === "F") return "teal";
+  if(n === "S" && f3 === "J") return "blue";
+  return "amber";
+}
 
 let state = {
   view: "loading",
@@ -311,13 +391,29 @@ function renderAuth(){
   const isLogin = state.authMode === "login";
   app.innerHTML = `
     <div class="hero fade-in">
+      <div class="eyebrow">✦ ${isLogin ? "Xush kelibsiz" : "16 turdan qaysi biri sizsiz?"}</div>
       <h1>${isLogin ? "Qaytib kelganingizdan xursandmiz." : "O'zingizni yaqindan tanish vaqti keldi."}</h1>
-      <p class="lead">O'zbek tilida tayyorlangan 24 savolli qisqa test orqali 16 shaxsiyat turidan qaysi biriga yaqinligingizni bilib oling.</p>
+      <p class="lead">O'zbek tilida tayyorlangan qisqa test orqali 16 shaxsiyat turidan qaysi biriga yaqinligingizni bilib oling — har bir tur o'z rangi va xarakteriga ega.</p>
+      <div class="stats-row">
+        <span><b>24</b> savol</span>
+        <span><b>~3</b> daqiqa</span>
+        <span><b>16</b> shaxsiyat turi</span>
+        <span><b>100%</b> bepul</span>
+      </div>
+      <div class="marquee">
+        <div class="marquee-track">
+          ${Object.keys(TYPES).concat(Object.keys(TYPES)).map(t=>{
+            const g = groupOf(t);
+            return `<span class="type-chip" style="background:var(--${g}-soft); color:var(--${g});">${t} · ${TYPES[t].title}</span>`;
+          }).join("")}
+        </div>
+      </div>
     </div>
     <div class="panel">
       <div class="field">
         <label>Foydalanuvchi nomi</label>
         <input id="inpUsername" type="text" autocomplete="username" placeholder="masalan: dilnoza_k">
+        <div class="field-hint">Email yoki Gmail manzilingizni emas, oddiy taxallus kiriting (masalan: dilnoza_k). Bu nom boshqalarga ham ko'rinishi mumkin.</div>
       </div>
       <div class="field">
         <label>Parol</label>
@@ -377,23 +473,29 @@ async function logout(){
 function renderHome(){
   const results = state.user.results || [];
   const last = results[results.length-1];
+  const axisColors = ["violet","teal","blue","amber"];
+  const axisLabels = [["E","I","Diqqat qayerga qaratiladi"],["S","N","Ma'lumot qanday qabul qilinadi"],["T","F","Qaror qanday qabul qilinadi"],["J","P","Hayotga munosabat"]];
   app.innerHTML = `
     <div class="hero fade-in">
+      <div class="eyebrow">✦ Boshqaruv paneli</div>
       <h1>Assalomu alaykum, ${escapeHtml(state.user.username)}.</h1>
       <p class="lead">${last ? "Oldingi natijangizni ko'rishingiz yoki testni qaytadan topshirishingiz mumkin." : "Hali test topshirmagansiz — boshlashga tayyormisiz?"}</p>
-      <div class="axis-row">
-        <div class="axis"><div class="pair">E<em>/</em>I</div><div class="label">Diqqat qayerga qaratiladi</div></div>
-        <div class="axis"><div class="pair">S<em>/</em>N</div><div class="label">Ma'lumot qanday qabul qilinadi</div></div>
-        <div class="axis"><div class="pair">T<em>/</em>F</div><div class="label">Qaror qanday qabul qilinadi</div></div>
-        <div class="axis"><div class="pair">J<em>/</em>P</div><div class="label">Hayotga munosabat</div></div>
+      <div class="modules">
+        ${axisLabels.map((a,i)=>{
+          const c = axisColors[i];
+          return `<div class="module" style="background:var(--${c}-soft); color:var(--${c});">
+            <div class="pair">${a[0]}<em>/</em>${a[1]}</div>
+            <div class="label">${a[2]}</div>
+          </div>`;
+        }).join("")}
       </div>
     </div>
     <button class="btn violet block" id="btnStart">${last ? "Testni qaytadan topshirish" : "Testni boshlash"}</button>
 
     ${last ? `
       <div class="section-title">So'nggi natija</div>
-      <div class="panel" style="text-align:center; padding:26px;">
-        <div class="serif" style="font-size:34px; color:var(--violet); font-weight:900;">${last.type}</div>
+      <div class="panel" style="text-align:center; padding:26px; background:var(--${groupOf(last.type)}-soft);">
+        <div class="serif" style="font-size:34px; color:var(--${groupOf(last.type)}); font-weight:900;">${last.type}</div>
         <div style="margin-top:6px; color:var(--muted); font-size:14px;">${TYPES[last.type].title}</div>
       </div>
     ` : ""}
@@ -401,7 +503,7 @@ function renderHome(){
     <div class="section-title">Tarix</div>
     ${results.length ? results.slice().reverse().map(r=>`
       <div class="history-item">
-        <span class="type">${r.type} — ${TYPES[r.type].title}</span>
+        <span class="type" style="color:var(--${groupOf(r.type)});">${r.type} — ${TYPES[r.type].title}</span>
         <span class="date">${new Date(r.date).toLocaleDateString("uz-UZ")}</span>
       </div>
     `).join("") : `<div class="empty">Hozircha natijalar yo'q.</div>`}
@@ -419,11 +521,12 @@ function startTest(){
 function renderTest(){
   const q = QUESTIONS[state.qIndex];
   const selected = state.answers[state.qIndex];
-  const pct = Math.round((state.qIndex)/QUESTIONS.length*100);
   app.innerHTML = `
     <div class="fade-in">
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div class="progress-count">${state.qIndex+1} / ${QUESTIONS.length}</div>
+      <div class="progress-dots">
+        ${QUESTIONS.map((_,i)=>`<span class="${i<=state.qIndex && state.answers[i]!==undefined ? "done":""}"></span>`).join("")}
+      </div>
+      <div class="progress-count">Savol ${state.qIndex+1} / ${QUESTIONS.length}</div>
       <div class="question">
         <h2>${escapeHtml(q.text)}</h2>
         <div class="likert">
@@ -479,18 +582,20 @@ async function finishTest(){
 
 function renderResult(result){
   const info = TYPES[result.type];
+  const g = groupOf(result.type);
   app.innerHTML = `
-    <div class="result-hero fade-in">
-      <div class="result-letters">${result.type}</div>
-      <div class="result-title serif">${info.title}</div>
+    <div class="result-card fade-in" style="background:var(--${g}-soft);">
+      <div class="eyebrow-light" style="color:var(--${g});">SIZNING NATIJANGIZ</div>
+      <div class="result-letters" style="color:var(--${g});">${result.type}</div>
+      <div class="result-title">${info.title}</div>
       <p class="result-desc">${info.desc}</p>
     </div>
     <div class="trait-bars">
       ${result.traitPct.map(t=>`
         <div class="trait-bar-row">
-          <span>${t.a}</span>
-          <div class="trait-track"><div class="trait-fill" style="left:0; width:${t.pctA}%;"></div></div>
-          <span style="text-align:right;">${t.b}</span>
+          <span>${t.a} ${t.pctA}%</span>
+          <div class="trait-track"><div class="trait-fill" style="width:${t.pctA}%; background:var(--${g});"></div></div>
+          <span style="text-align:right;">${100-t.pctA}% ${t.b}</span>
         </div>
       `).join("")}
     </div>
